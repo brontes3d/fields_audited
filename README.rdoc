@@ -1,0 +1,25 @@
+== FieldsAudited
+facebooklist.js/
+	facebooklist.css
+	facebooklist.js
+	MIT-LICENSE
+	README.rdoc
+
+extension of acts_as_audited for auditing based on field_defs.  The goal being to audit not just record.changes but the human readable representation of those changes.  We call that display_changes.  And we figure it out based on the reader and display procs defined in the field_defs for the model changing.
+
+So you could audit that owner changed from Bob to Sue in the same DB row with your audit of owner_id changing from 7 to 83.
+
+Also, we support complicated auditing of changes on related entities as if there were changes on a central entity.  For example, we could audit the username of the person who added a comment to your blog post but as part of the audits for that blog post.  This way you can see both changes to the post itself, and comments, and whatever else you fields_audited_as_belonging_to all in one audit trail.
+
+Use the migration generator from acts_as_audited... but add the following lines:
+
+	t.column :display_changes, :text
+  t.column :auditable_belongs_to_id, :integer
+	t.column :auditable_belongs_to_type, :string
+	
+And read the tests.
+
+
+Copyright (c) 2008-2010 3M. All rights reserved. Released under the MIT license.
+
+Authored by Jacob Burkhart.
